@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet">
+    <title>Grafos</title>
+    <link rel="icon" type="image/png" href="fotos/logo-ucb-cuadrado.png">
+</head>
+
+<body>
+    <header class="navbar">
+        <h1 class="cabecera-nombre">Análisis de Algoritmos</h1>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="algoritmos.html">Algoritmos</a></li>
+            <li><a href="grafo.html">Grafos</a></li>
+            <li><a href="johnson.html">Johnson</a></li>
+            <li><a href="asignacion.html" class="activo">Asignación</a></li>
+        </ul>
+    </header>
+
+
+    <h2>Asignación</h2>
+
+    <div class="controls">
+
+        <button class="modo-btn activo" onclick="cambiarModo('nodo', this)">
+            Crear Nodo
+        </button>
+
+        <button class="modo-btn" onclick="cambiarModo('arista', this)">
+            Unir Nodos
+        </button>
+
+        <button class="modo-btn" onclick="cambiarModo('borrar', this)">
+            Borrar
+        </button>
+
+        <button class="modo-btn" onclick="cambiarModo('editar', this)">
+            Editar
+        </button>
+
+    </div>
+
+    <br>
+
+    <canvas id="canvas" width="900" height="500"></canvas>
+
+    <br>
+
+
+    <div class="botonesuwu">
+        <button onclick="limpiarGrafo()">Limpiar lienzo</button>
+        <button onclick="resolverMaximo()">
+            Maximizar
+        </button>
+        <button onclick="resolverMinimo()">
+            Minimizar
+        </button>
+        <button onClick="explicarPasoAsignacion()">Explicar</button>
+        <button onclick="exportarJSON()">Exportar JSON </button>
+        <input type="file" id="importarJSON" accept=".json">
+        <button onclick="document.getElementById('importarJSON').click()">
+            Importar JSON
+        </button>
+
+    </div>
+
+    <br>
+
+    <div class="controls2">
+        <button class="modo-btn" onclick="abrirHelp()">Ayuda</button>
+
+    </div>
+
+    <div id = 'matriz-container' style = 'margin-top: 20px; overflow-x: auto; text-align: center;'></div>
+    </section>
+    <footer>
+        <p>Hecho por el Grupo "Los Laris"</p>
+        <p>Natalia Aytia, Hans Carvajal, Alessandro Quenallata</p>
+        <p>2026 Análisis de Algoritmos - UCB</p>
+    </footer>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-title">Título</h3>
+
+            <input type="text" id="modal-input" placeholder="Escribe aquí...">
+
+            <label id="modal-dirigida" style="display:none; margin-bottom:10px;">
+                <input type="checkbox" id="modal-dirigida-check">
+                Arista dirigida
+            </label>
+
+            <p id="modal-error" class="modal-error"></p>
+
+            <div class="modal-buttons">
+                <button class="modal-btn aceptar" onclick="confirmarModal()">Aceptar</button>
+                <button class="modal-btn cancelar" onclick="cerrarModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="help-modal" class="modal">
+        <div class="modal-content help-content">
+            <span class="close" onclick="cerrarHelp()">&times;</span>
+            <h2>¿Cómo funciona Asignacion?</h2>
+            <br>
+            <div class="help-section">
+                <h3>Crear Nodo</h3>
+                <p>Selecciona "Crear Nodo" y haz clic en el lienzo para agregar un nuevo nodo.</p>
+            </div>
+
+            <br>
+            <div class="help-section">
+                <h3> Unir Nodos</h3>
+                <p>Selecciona "Unir". Haz clic en el nodo origen y luego en el nodo destino. Ingresa el peso y
+                    selecciona si es dirigida en el checkbox.</p>
+            </div>
+            <br>
+            <div class="help-section">
+                <h3> Editar</h3>
+                <p>Selecciona "Editar" y haz clic sobre un nodo o arista para modificar su información (su nombre o su
+                    peso).</p>
+            </div>
+            <br>
+            <div class="help-section">
+                <h3>Borrar</h3>
+                <p>Selecciona "Borrar" y haz clic sobre el elemento que deseas eliminar.</p>
+            </div>
+            <br>
+            <div class="help-section">
+                <h3> Limpiar Lienzo</h3>
+                <p>Elimina todos los nodos y aristas del grafo.</p>
+            </div>
+            <br>
+            <div class="help-section">
+                <h3> Maximizar</h3>
+                <p>Genera la matriz final de la maximizacion por el metodo de asignacion del grafo.</p>
+            </div>
+            <br>
+            <div class="help-section">
+                <h3> Minimizar</h3>
+                <p>Genera la matriz final de la minimizacion por el metodo de asignacion del grafo.</p>
+            </div>
+            <br>
+            <div class="help-section">
+                <h3> Exportar</h3>
+                <p>Exporta tu grafo con el nombre que quieras en formato json</p>
+            </div>
+            <br>
+            <div class="help-section">
+                <h3>Importar</h3>
+                <p>Carga tu archivo json con tu grafo para visualizarlo.</p>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>

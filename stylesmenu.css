@@ -1,0 +1,146 @@
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #f5eee6, #efe3d6);
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+}
+
+#intro {
+    max-width: 900px;
+    width: 100%;
+    margin: 40px 20px;
+    padding: 50px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    animation: aparecer 0.8s ease-in-out;
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.titulo h2 {
+    font-size: 36px;
+    color: #d9825b;
+    font-weight: 600;
+}
+
+.linea {
+    width: 120px;
+    height: 4px;
+    background: #e9a97f;
+    margin: 15px auto;
+    border-radius: 5px;
+}
+
+.materia {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.logo {
+    width: 250px;
+    margin: 20px 0;
+}
+
+.contenido h6 {
+    font-size: 16px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    color: #b6b28c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.menu a {
+    width: 220px;
+    text-decoration: none;
+    background-color: #f4c8a1;
+    padding: 25px;
+    border-radius: 18px;
+    font-weight: 600;
+    color: #333;
+    transition: 0.3s ease;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+.menu a span {
+    display: block;
+    font-size: 18px;
+}
+
+.menu a small {
+    display: block;
+    font-weight: 400;
+    font-size: 12px;
+    margin-top: 8px;
+    color: #555;
+}
+
+.menu a:hover {
+    background-color: #f0a86b;
+    transform: translateY(-6px);
+}
+
+footer {
+    margin-top: 50px;
+    font-size: 12px;
+    color: #999;
+}
+
+@media (max-width: 768px) {
+
+    #intro {
+        padding: 25px;
+        margin: 20px 15px;
+    }
+
+    .titulo h2 {
+        font-size: 26px;
+    }
+
+    .logo {
+        width: 180px;
+    }
+
+    .menu {
+        gap: 15px;
+    }
+
+    .menu a {
+        width: 100%;
+        padding: 18px;
+    }
+
+    footer {
+        margin-top: 30px;
+    }
+}

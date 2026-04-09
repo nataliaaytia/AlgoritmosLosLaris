@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritmos</title>
+    <link href="stylealgoritmo.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="fotos/logo-ucb-cuadrado.png">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <h1 class="cabecera-nombre">Análisis de Algoritmos</h1>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="algoritmos.html" class="activo">Algoritmos</a></li>
+            <li><a href="grafo.html">Grafos</a></li>
+            <li><a href="johnson.html">Johnson</a></li>
+            <li><a href="asignacion.html">Asignación</a></li>
+        </ul>
+    </header>
+
+    <main class="container">
+        <section class="card">
+            <details open>
+                <summary>Introducción a los algoritmos</summary>
+
+                <div class="contenido-card">
+                    <h3>¿Qué es un algoritmo?</h3>
+                    <p>
+                        Un algoritmo es un conjunto de instrucciones bien definidas, ordenadas y finitas
+                        que permiten resolver un problema específico o realizar una tarea determinada.
+                        En informática, los algoritmos son la base de todos los programas y sistemas.
+                    </p>
+
+                    <p>
+                        Desde operaciones matemáticas simples hasta sistemas complejos como redes sociales
+                        o inteligencia artificial, todo funciona gracias a algoritmos.
+                    </p>
+
+                    <ul>
+                        <li>Tiene un inicio y un final.</li>
+                        <li>Está compuesto por pasos claros y precisos.</li>
+                        <li>Es finito (termina en algún momento).</li>
+                        <li>Produce un resultado concreto.</li>
+                        <li>Puede representarse en pseudocódigo o diagramas de flujo.</li>
+                    </ul>
+                </div>
+
+            </details>
+        </section>
+
+        <section class="card">
+            <details open>
+                <summary>Definicion teorica</summary>
+
+                <div class="contenido-card">
+                    <p>
+                        En teoría de la computación, un algoritmo es un procedimiento formal que transforma
+                        una entrada (input) en una salida (output) siguiendo reglas bien definidas
+                        y ejecutables por una máquina.
+                    </p>
+
+                    <p>
+                        Matemáticamente, puede verse como una función que recibe datos iniciales,
+                        realiza un proceso lógico y devuelve un resultado. Su eficiencia puede medirse
+                        en términos de tiempo y espacio de ejecución.
+                    </p>
+
+                    <img src="fotos/algoritmo1.jpg" alt="algoritmo">
+                </div>
+
+            </details>
+        </section>
+
+        <section class="card">
+            <details open>
+                <summary>Estructuras basicas</summary>
+
+                <div class="contenido-card">
+                    <p>
+                        Todo algoritmo está compuesto por estructuras fundamentales que permiten
+                        controlar el flujo de ejecución del programa.
+                    </p>
+
+                    <ul>
+                        <li><strong>Secuencia:</strong> Instrucciones ejecutadas en orden, una tras otra.</li>
+                        <li><strong>Selección:</strong> Permite tomar decisiones mediante condiciones (if, else).</li>
+                        <li><strong>Repetición:</strong> Permite ejecutar un bloque varias veces (for, while).</li>
+                    </ul>
+
+                    <p>
+                        Estas estructuras forman la base de cualquier lenguaje de programación moderno.
+                    </p>
+
+                    <img src="fotos/algoritmo2.png" alt="estructuras">
+                </div>
+
+            </details>
+        </section>
+
+        <section class="wrapped">
+
+            <div class="carta">
+
+                <div class="carta-frente">
+                    <div class="carta-info">
+                        <h3 class="carta-titulo">Complejidad de los algoritmos</h3>
+                    </div>
+                </div>
+
+                <div class="carta-atras">
+                    <div class="carta-contenido">
+                        <p>
+                            La notación Big-O se utiliza para medir la eficiencia de un algoritmo
+                            en función del tamaño de la entrada (n). Describe cómo crece el tiempo
+                            o espacio requerido cuando aumenta la cantidad de datos.
+                        </p>
+
+                        <ul>
+                            <li><strong>O(1):</strong> Tiempo constante, no depende del tamaño de entrada.</li>
+                            <li><strong>O(n):</strong> Tiempo lineal, crece proporcionalmente a n.</li>
+                            <li><strong>O(log n):</strong> Tiempo logarítmico, crece lentamente (ej. búsqueda binaria).
+                            </li>
+                            <li><strong>O(n²):</strong> Tiempo cuadrático, común en ciclos anidados.</li>
+                        </ul>
+                        <p>
+                            Analizar la complejidad permite comparar algoritmos y elegir el más eficiente.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="wrapped">
+
+            <div class="carta">
+
+                <div class="carta-frente">
+                    <div class="carta-info">
+                        <h3 class="carta-titulo">Paradigmas de diseño de algoritmos</h3>
+                    </div>
+                </div>
+
+                <div class="carta-atras">
+                    <div class="carta-contenido">
+                        <p>
+                            Los paradigmas son estrategias generales utilizadas para diseñar algoritmos eficientes.
+                        </p>
+
+                        <ul>
+                            <li><strong>Divide y vencerás:</strong> Divide el problema en partes más pequeñas y combina
+                                resultados.
+                            </li>
+                            <li><strong>Programación dinámica:</strong> Guarda resultados intermedios para evitar
+                                cálculos
+                                repetidos.</li>
+                            <li><strong>Algoritmos voraces (Greedy):</strong> Eligen la mejor opción local esperando una
+                                solución
+                                global óptima.</li>
+                            <li><strong>Backtracking:</strong> Explora posibles soluciones y retrocede si no funcionan.
+                            </li>
+                        </ul>
+
+                        <p>
+                            Estos enfoques permiten resolver problemas complejos de forma estructurada.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="wrapped">
+
+            <div class="carta">
+
+                <div class="carta-frente">
+                    <div class="carta-info">
+                        <h3 class="carta-titulo">Aplicaciones de los algoritmos</h3>
+                    </div>
+                </div>
+
+                <div class="carta-atras">
+                    <div class="carta-contenido">
+                        <p>
+                            Los algoritmos están presentes en prácticamente todas las áreas tecnológicas:
+                        </p>
+
+                        <ul>
+                            <li>Inteligencia Artificial y Machine Learning.</li>
+                            <li>Criptografía y seguridad informática.</li>
+                            <li>Redes sociales y motores de búsqueda.</li>
+                            <li>Robótica y automatización.</li>
+                            <li>Sistemas financieros y bancarios.</li>
+                            <li>Desarrollo de software y videojuegos.</li>
+                        </ul>
+
+                        <p>
+                            Sin algoritmos, los sistemas digitales modernos no podrían funcionar.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <details open>
+                <summary>Ejemplos de algoritmos</summary>
+
+                <div class="contenido-card">
+                    <p>Algunos ejemplos clásicos utilizados en informática son:</p>
+                    <ul>
+                        <li><strong>Búsqueda binaria:</strong> Encuentra un elemento en una lista ordenada de forma
+                            eficiente.
+                        </li>
+                        <li><strong>Ordenamiento burbuja:</strong> Método simple de ordenamiento basado en intercambios.
+                        </li>
+                        <li><strong>Dijkstra:</strong> Encuentra el camino más corto en un grafo.</li>
+                        <li><strong>Kruskal:</strong> Encuentra el árbol de expansión mínima.</li>
+                    </ul>
+
+                    <p>
+                        Estos algoritmos son fundamentales en estructuras de datos y teoría de grafos.
+                    </p>
+                </div>
+
+            </details>
+        </section>
+
+        <section class="card">
+            <details open>
+                <summary>Videos complementarios</summary>
+
+                <div class="contenido-card">
+                    <p>
+                        A continuación, algunos recursos audiovisuales para reforzar el aprendizaje
+                        sobre análisis y diseño de algoritmos:
+                    </p>
+
+                    <div class="video-grid">
+                        <iframe src="https://www.youtube.com/embed/f10jKIslSUY" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/U3CGMyjzlvM" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/RSJrBEhdZxw" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/zuCHSKLIibo" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+            </details>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p>Hecho por Natalia Aytia Morales</p>
+        <p>natalia.aytia@gmail.com</p>
+        <p>2026 Análisis de Algoritmos - UCB</p>
+    </footer>
+
+</body>
+
+</html>
