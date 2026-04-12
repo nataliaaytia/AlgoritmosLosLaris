@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet">
+    <title>Esquina Noroeste</title>
+    <link rel="icon" type="image/png" href="fotos/logo-ucb-cuadrado.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body>
+    <header class="navbar">
+        <h1 class="cabecera-nombre">Análisis de Algoritmos</h1>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="algoritmos.html">Algoritmos</a></li>
+            <li><a href="grafo.html">Grafos</a></li>
+            <li><a href="johnson.html">Johnson</a></li>
+            <li><a href="asignacion.html">Asignación</a></li>
+            <li><a href="northwest.html" class="activo">Northwest</a></li>
+        </ul>
+    </header>
+
+    <h2>Método de northwest</h2>
+
+    <div class="controls" style="display: flex; gap: 10px; justify-content: center; align-items: center;">
+        <label>Orígenes (Filas): <input type="number" id="input-filas" min="1" value="3" style="width: 50px;"></label>
+        <label>Destinos (Columnas): <input type="number" id="input-cols" min="1" value="3" style="width: 50px;"></label>
+        <button class="modo-btn activo" onclick="generarMatrizUI()">Crear Matriz</button>
+    </div>
+
+    <br>
+
+    <div id="nw-container" style="overflow-x: auto; text-align: center; margin: 20px;">
+        <p style="color: #666;">Ingresa el tamaño y haz clic en "Crear Matriz"</p>
+    </div>
+
+    <div id="resultados-container"
+        style="text-align: center; font-size: 18px; font-weight: bold; color: #d9825b; margin: 15px;"></div>
+
+    <div class="botonesuwu">
+        <button onclick="limpiarMatriz()">Limpiar Matriz</button>
+        <button onclick="resolverNoroeste()">Resolver</button>
+        <button onclick="explicarPasoAPasoNW()">Explicar Paso a Paso</button>
+        <button onclick="exportarPNG()">Exportar PNG</button>
+        <button onclick="exportarJSON()">Exportar JSON</button>
+        <input type="file" id="importarJSON" accept=".json" style="display: none;">
+        <button onclick="document.getElementById('importarJSON').click()">Importar JSON</button>
+    </div>
+
+    <br>
+
+    <div class="controls2">
+        <button class="modo-btn" onclick="abrirHelp()">Ayuda</button>
+    </div>
+
+    <footer>
+        <p>Hecho por el Grupo "Los Laris"</p>
+        <p>Natalia Aytia, Hans Carvajal, Alessandro Quenallata</p>
+        <p>2026 Análisis de Algoritmos - UCB</p>
+    </footer>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-title">Título</h3>
+            <input type="text" id="modal-input" placeholder="Escribe aquí...">
+            <p id="modal-error" class="modal-error"></p>
+            <div class="modal-buttons">
+                <button class="modal-btn aceptar" onclick="confirmarModal()">Aceptar</button>
+                <button class="modal-btn cancelar" onclick="cerrarModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="help-modal" class="modal">
+        <div class="modal-content help-content">
+            <span class="close" onclick="cerrarHelp()">&times;</span>
+            <h2>¿Cómo usar Esquina Noroeste?</h2>
+            <br>
+            <div class="help-section">
+                <h3>Crear Matriz</h3>
+                <p>Ingresa el número de orígenes (filas) y destinos (columnas) y haz clic en crear. Aparecerá una tabla
+                    editable.</p>
+            </div>
+            <br>
+            <div class="help-section">
+                <h3>Editar Datos</h3>
+                <p>Haz clic en las celdas para cambiar los nombres de las filas/columnas, ingresar los costos en el
+                    centro, y configurar la Oferta (derecha) y Demanda (abajo).</p>
+            </div>
+            <br>
+            <div class="help-section">
+                <h3>Resolver</h3>
+                <p>El algoritmo te dará una solución inicial factible calculando la asignación desde la esquina superior
+                    izquierda.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="northwest.js"></script>
+</body>
+
+</html>
