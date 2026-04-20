@@ -200,7 +200,6 @@ async function swap(i, j, arr) {
     await overwrite(j, temp, arr);
 }
 
-
 function actualizarCronometro() {
     let tiempoActual = Date.now() - tiempoInicio;
     let segundos = (tiempoActual / 1000).toFixed(2);
@@ -278,21 +277,33 @@ async function insertionSort(ascendente) {
 
 async function shellSort(ascendente) {
     let n = arregloGlobal.length;
-    for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
-        for (let i = gap; i < n; i++) {
-            let temp = arregloGlobal[i];
-            let j;
-            colorSquare(i, COLOR_COMPARA);
-            await sleep(VELOCIDAD);
+    let h = 1;
 
-            for (j = i; j >= gap && (ascendente ? arregloGlobal[j - gap] > temp : arregloGlobal[j - gap] < temp); j -= gap) {
-                colorSquare(j - gap, COLOR_COMPARA);
-                await overwrite(j, arregloGlobal[j - gap], arregloGlobal);
-                colorSquare(j, COLOR_BASE);
+    while (h < Math.floor(n / 3)) {
+        h = 3 * h + 1;
+    }
+
+    while (h >= 1) {
+        for (let i = h; i < n; i++) {
+            for (let j = i; j >= h; j -= h) {
+                colorSquare(j, COLOR_COMPARA);
+                colorSquare(j - h, COLOR_COMPARA);
+                await sleep(VELOCIDAD);
+
+                let condicion = ascendente ? (arregloGlobal[j] < arregloGlobal[j - h]) : (arregloGlobal[j] > arregloGlobal[j - h]);
+
+                if (condicion) {
+                    await swap(j, j - h, arregloGlobal);
+                    colorSquare(j, COLOR_BASE);
+                    colorSquare(j - h, COLOR_BASE);
+                } else {
+                    colorSquare(j, COLOR_BASE);
+                    colorSquare(j - h, COLOR_BASE);
+                    break;
+                }
             }
-            await overwrite(j, temp, arregloGlobal);
-            colorSquare(j, COLOR_BASE);
         }
+        h = Math.floor(h / 3);
     }
 }
 

@@ -773,7 +773,7 @@ function ordenTopologico() {
     return orden;
 }
 
-
+/////
 
 function resolverJohnson() {
     ultimoTipoJohnson = 'max';
@@ -836,7 +836,6 @@ function resolverJohnsonMinimo() {
         n.tardio = -Infinity;
     });
 
-    // Limpiamos
     aristas.forEach(a => {
         a.critica = false;
         a.holgura = null;
@@ -999,6 +998,8 @@ async function explicarPasoAPaso() {
     abrirModal("¡Proceso Finalizado!", null, "text", false);
     document.getElementById("modal-error").textContent = "El grafo ha sido resuelto completamente.";
 }
+
+//////////////
 
 function generarMatrizHTML(tipo) {
     const container = document.getElementById("matriz-container");
@@ -1285,7 +1286,6 @@ async function explicarPasoAsignacion() {
     );
     await sleep(5500);
 
-    // NUEVO: PINTAR ARISTAS
     aristas.forEach(a => a.enSolucion = false);
     celdasSeleccionadas.forEach(celda => {
         const nOrigen = nodosOrigen[celda.fila];
