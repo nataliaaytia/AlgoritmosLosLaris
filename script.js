@@ -14,6 +14,47 @@ let ultimoTipoJohnson = 'max';
 let nodoArrastrado = null;
 let dragHasMoved = false;
 
+// Función para oscurecer colores hexadecimales
+function oscurecerHex(hex, factor) {
+    let r = parseInt(hex.slice(1, 3), 16);
+    let g = parseInt(hex.slice(3, 5), 16);
+    let b = parseInt(hex.slice(5, 7), 16);
+
+    r = Math.max(0, Math.floor(r * (1 - factor)));
+    g = Math.max(0, Math.floor(g * (1 - factor)));
+    b = Math.max(0, Math.floor(b * (1 - factor)));
+
+    const toHex = (c) => c.toString(16).padStart(2, '0');
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+// --- MOTOR DE ANIMACIONES VISUALES ---
+let offsetLinea = 0;
+let tiempoAnimacion = 0;
+
+// Inyectamos CSS para que las celdas de las matrices aparezcan en cascada
+const animStyle = document.createElement('style');
+animStyle.innerHTML = `
+    @keyframes popInCell {
+        0% { opacity: 0; transform: scale(0.3) translateY(15px); }
+        100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .celda-animada {
+        opacity: 0;
+        animation: popInCell 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+`;
+document.head.appendChild(animStyle);
+
+function animarFlujoCanvas() {
+    offsetLinea += 0.6; // Velocidad del flujo de las líneas
+    tiempoAnimacion += 0.08; // Velocidad del latido del nodo
+    dibujar();
+    requestAnimationFrame(animarFlujoCanvas);
+}
+// Iniciamos el flujo infinito para el Canvas
+requestAnimationFrame(animarFlujoCanvas);
+
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 function generarColor() {
@@ -254,7 +295,18 @@ function dibujar() {
 
 function dibujarNodo(nodo) {
     ctx.beginPath();
-    ctx.arc(nodo.x, nodo.y, radio, 0, Math.PI * 2);
+
+    // MAGIA: Latido (Pulsación) si el nodo está activo en la explicación
+    let radioDinamico = radio;
+    if (nodo === nodoActivo) {
+        radioDinamico = radio + Math.sin(tiempoAnimacion) * 2;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = "#c75f2f";
+    } else {
+        ctx.shadowBlur = 0;
+    }
+
+    ctx.arc(nodo.x, nodo.y, radioDinamico, 0, Math.PI * 2);
 
     if (nodo !== nodoHover && nodo !== nodoActivo) {
         ctx.fillStyle = "white";
@@ -277,11 +329,12 @@ function dibujarNodo(nodo) {
         gradient.addColorStop(1, "#c75f2f");
         ctx.fillStyle = gradient;
         ctx.strokeStyle = "#b54c1f";
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 4;
     }
 
     ctx.fill();
     ctx.stroke();
+    ctx.shadowBlur = 0; // Quitar sombra para que el texto sea nítido
 
     ctx.fillStyle = nodo === nodoHover || nodo === nodoActivo ? "white" : "#d9825b";
     ctx.font = "bold 16px Arial";
@@ -294,15 +347,13 @@ function dibujarNodo(nodo) {
 
     if (nodo.temprano !== null) {
         ctx.textAlign = "right";
-        ctx.fillText(nodo.temprano, nodo.x - radio + 15, nodo.y);
+        ctx.fillText(nodo.temprano, nodo.x - radioDinamico - 10, nodo.y);
     }
-
     if (nodo.tardio !== null) {
         ctx.textAlign = "left";
-        ctx.fillText(nodo.tardio, nodo.x + radio - 15, nodo.y);
+        ctx.fillText(nodo.tardio, nodo.x + radioDinamico + 10, nodo.y);
     }
 }
-
 function dibujarArista(arista) {
     const desde = arista.desde;
     const hasta = arista.hasta;
@@ -310,14 +361,29 @@ function dibujarArista(arista) {
     let color = arista.color;
     let grosor = 2;
 
+    ctx.save();
+
+    // Asignación de líneas animadas y colores
     if (arista.critica) {
-        color = "#e63946";
+        color = "#e63946"; // Rojo (Johnson)
         grosor = 4;
+        ctx.setLineDash([15, 10]);
+        ctx.lineDashOffset = -offsetLinea;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = color;
     } else if (arista.enSolucion) {
-        color = "#2a9d8f";
-        grosor = 5;
+        color = "#e63946"; // Rojo para Asignación (solicitado uwu)
+        grosor = 4;
+        ctx.setLineDash([15, 10]);
+        ctx.lineDashOffset = -offsetLinea;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = color;
+    } else {
+        ctx.setLineDash([]);
+        ctx.shadowBlur = 0;
     }
 
+    // Dibujar Loop (nodo apuntando a sí mismo)
     if (desde === hasta) {
         const loopRadius = 30;
         const loopX = desde.x;
@@ -329,30 +395,33 @@ function dibujarArista(arista) {
         ctx.arc(loopX, loopY, loopRadius, 0, Math.PI * 2);
         ctx.stroke();
 
-        ctx.fillStyle = color;
+        // Texto del Loop oscuro con contorno
+        ctx.shadowBlur = 0;
         ctx.font = "bold 14px Arial";
         ctx.textAlign = "center";
+
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.9)"; // Contorno blanco
+        ctx.lineWidth = 3;
+        ctx.strokeText(arista.peso, loopX, loopY - loopRadius - 10);
+
+        ctx.fillStyle = oscurecerHex(color, 0.45); // Color un 45% más oscuro
         ctx.fillText(arista.peso, loopX, loopY - loopRadius - 10);
 
         if (arista.dirigida) {
-            const arrowX = loopX + loopRadius;
-            const arrowY = loopY;
-            dibujarFlecha(arrowX, arrowY, Math.PI / 2, color);
+            dibujarFlecha(loopX + loopRadius, loopY, Math.PI / 2, color);
         }
+        ctx.restore();
         return;
     }
 
+    // Dibujar línea normal
     let offset = 0;
-    const existeInversa = aristas.some(a =>
-        a.desde === hasta && a.hasta === desde && a !== arista
-    );
-
+    const existeInversa = aristas.some(a => a.desde === hasta && a.hasta === desde && a !== arista);
     if (existeInversa) offset = 40;
 
     const dx = hasta.x - desde.x;
     const dy = hasta.y - desde.y;
     const dist = Math.sqrt(dx * dx + dy * dy);
-
     const normX = dx / dist;
     const normY = dy / dist;
 
@@ -371,21 +440,30 @@ function dibujarArista(arista) {
     ctx.lineWidth = grosor;
     ctx.stroke();
 
-    ctx.fillStyle = color;
-    ctx.font = "bold 16px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText(arista.peso, controlX, controlY);
-
     if (arista.dirigida) {
         const angle = Math.atan2(endY - controlY, endX - controlX);
         dibujarFlecha(endX, endY, angle, color);
     }
+
+    // Texto de la arista oscuro con contorno blanco (Súper legible)
+    ctx.shadowBlur = 0;
+    ctx.font = "bold 16px Arial";
+    ctx.textAlign = "center";
+
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.9)"; // Contorno
+    ctx.lineWidth = 4;
+    ctx.strokeText(arista.peso, controlX, controlY);
+
+    ctx.fillStyle = oscurecerHex(color, 0.45); // Color oscurecido
+    ctx.fillText(arista.peso, controlX, controlY);
 
     if (arista.holgura !== null) {
         ctx.font = "12px Arial";
         ctx.fillStyle = "#444";
         ctx.fillText("H=" + arista.holgura, controlX, controlY + 16);
     }
+
+    ctx.restore();
 }
 
 function dibujarFlecha(x, y, angle, color) {
@@ -1235,4 +1313,41 @@ async function explicarPasoAsignacion() {
 
     if (btnExplicar) btnExplicar.disabled = false;
     generarMatrizHTML(ultimoTipoAsignacion);
+}
+
+
+function abrirHelpA() {
+    document.getElementById("help-modal").classList.add("active");
+}
+
+function cerrarHelA() {
+    document.getElementById("help-modal").classList.remove("active");
+}
+
+function abrirModalA(titulo, callback = null, tipo = "text") {
+    document.getElementById("modal-title").textContent = titulo;
+    const input = document.getElementById("modal-input");
+    input.value = "";
+    input.type = tipo;
+    document.getElementById("modal-error").textContent = "";
+    input.style.display = callback ? "block" : "none";
+    document.getElementById("modal").classList.add("active");
+    modalCallback = callback;
+    if (callback) input.focus();
+}
+
+function cerrarModalA() {
+    document.getElementById("modal").classList.remove("active");
+}
+
+function confirmarModalA() {
+    const input = document.getElementById("modal-input");
+    if (input.style.display !== "none") {
+        if (input.value.trim() === "") {
+            document.getElementById("modal-error").textContent = "El campo no puede estar vacío.";
+            return;
+        }
+        if (modalCallback && modalCallback(input.value.trim()) === false) return;
+    }
+    cerrarModalA();
 }

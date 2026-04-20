@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="style.css" rel="stylesheet">
+    <link href="styleg.css" rel="stylesheet">
     <title>Esquina Noroeste</title>
     <link rel="icon" type="image/png" href="fotos/logo-ucb-cuadrado.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -20,14 +20,15 @@
             <li><a href="johnson.html">Johnson</a></li>
             <li><a href="asignacion.html">Asignación</a></li>
             <li><a href="northwest.html" class="activo">Northwest</a></li>
+            <li><a href="sort.html">Sort</a></li>
         </ul>
     </header>
 
-    <h2>Método de northwest</h2>
+    <h2>Northwest</h2>
 
     <div class="controls" style="display: flex; gap: 10px; justify-content: center; align-items: center;">
-        <label>Orígenes (Filas): <input type="number" id="input-filas" min="1" value="3" style="width: 50px;"></label>
-        <label>Destinos (Columnas): <input type="number" id="input-cols" min="1" value="3" style="width: 50px;"></label>
+        <label>Filas: <input type="number" id="input-filas" min="1" value="3" style="width: 50px;"></label>
+        <label>Columnas: <input type="number" id="input-cols" min="1" value="3" style="width: 50px;"></label>
         <button class="modo-btn activo" onclick="generarMatrizUI()">Crear Matriz</button>
     </div>
 
@@ -42,7 +43,8 @@
 
     <div class="botonesuwu">
         <button onclick="limpiarMatriz()">Limpiar Matriz</button>
-        <button onclick="resolverNoroeste()">Resolver</button>
+        <button onclick="resolverNoroesteObj('min')">Minimizar</button>
+        <button onclick="resolverNoroesteObj('max')">Maximizar</button>
         <button onclick="explicarPasoAPasoNW()">Explicar Paso a Paso</button>
         <button onclick="exportarPNG()">Exportar PNG</button>
         <button onclick="exportarJSON()">Exportar JSON</button>
@@ -50,12 +52,16 @@
         <button onclick="document.getElementById('importarJSON').click()">Importar JSON</button>
     </div>
 
+    <div id="animacion-container"
+        style="max-width: 800px; margin: 20px auto; text-align: center; font-size: 14px; transition: all 0.5s;">
+    </div>
+    <br>
+
     <br>
 
     <div class="controls2">
-        <button class="modo-btn" onclick="abrirHelp()">Ayuda</button>
+        <button onclick="abrirHelp()" style="background: #7ca8b8;">Ayuda</button>
     </div>
-
     <footer>
         <p>Hecho por el Grupo "Los Laris"</p>
         <p>Natalia Aytia, Hans Carvajal, Alessandro Quenallata</p>
@@ -76,28 +82,63 @@
 
     <div id="help-modal" class="modal">
         <div class="modal-content help-content">
-            <span class="close" onclick="cerrarHelp()">&times;</span>
-            <h2>¿Cómo usar Esquina Noroeste?</h2>
+            <h2>¿Como usar Northwest?</h2>
             <br>
             <div class="help-section">
-                <h3>Crear Matriz</h3>
-                <p>Ingresa el número de orígenes (filas) y destinos (columnas) y haz clic en crear. Aparecerá una tabla
-                    editable.</p>
+                <h3>Generar Matriz</h3>
+                <p>Ingrese la cantidad de filas y columnas que desea</p>
+            </div>
+
+            <br>
+            <div class="help-section">
+                <h3>Editar Matriz</h3>
+                <p>Puede editar los nombres de las filas o columnas. Igualmente puede cambiar los valores numericos de
+                    las filas, columnas, demandas y ofertas</p>
             </div>
             <br>
             <div class="help-section">
-                <h3>Editar Datos</h3>
-                <p>Haz clic en las celdas para cambiar los nombres de las filas/columnas, ingresar los costos en el
-                    centro, y configurar la Oferta (derecha) y Demanda (abajo).</p>
+                <h3> Limpiar Matriz</h3>
+                <p>Al presionarlo todos los valores de las celdas se volveran 0</p>
             </div>
             <br>
             <div class="help-section">
-                <h3>Resolver</h3>
-                <p>El algoritmo te dará una solución inicial factible calculando la asignación desde la esquina superior
-                    izquierda.</p>
+                <h3>Minimizar</h3>
+                <p>Se resolvera la matriz en base a la logica Northwest para minimizar</p>
             </div>
+            <br>
+            <div class="help-section">
+                <h3>Maximizar</h3>
+                <p>Se resolvera la matriz en base a la logica Northwest para maximizar</p>
+            </div>
+            <br>
+            <div class="help-section">
+                <h3>Explicar Paso a Paso</h3>
+                <p>Generar una resolucion paso a paso de la resolucion de la matriz segun lo elegido</p>
+            </div>
+            <br>
+            <div class="help-section">
+                <h3>Exportar PNG</h3>
+                <p>Se podra exportar una imagen en formato PNG de la matriz original</p>
+            </div>
+            <br>
+            <div class="help-section">
+                <h3>Exportar JSON</h3>
+                <p>Se podra exportar el JSON de la matriz original</p>
+            </div>
+            <br>
+            <div class="help-section">
+                <h3>Importar JSON</h3>
+                <p>Se podra importar un JSON generado por la pagina</p>
+            </div>
+            <br>
+
+            <div class="modal-buttons" style="margin-top: 25px;">
+                <button class="modal-btn aceptar" onclick="cerrarHelp()" style="width: 100%;">Entendido</button>
+            </div>
+
         </div>
     </div>
+
 
     <script src="northwest.js"></script>
 </body>

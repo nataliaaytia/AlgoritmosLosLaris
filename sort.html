@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet">
+    <title>Algoritmos de Ordenamiento</title>
+    <link rel="icon" type="image/png" href="fotos/logo-ucb-cuadrado.png">
+</head>
+
+<body>
+    <header class="navbar">
+        <h1 class="cabecera-nombre">Análisis de Algoritmos</h1>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="algoritmos.html">Algoritmos</a></li>
+            <li><a href="grafo.html">Grafos</a></li>
+            <li><a href="johnson.html">Johnson</a></li>
+            <li><a href="asignacion.html">Asignación</a></li>
+            <li><a href="northwest.html">Northwest</a></li>
+            <li><a href="sort.html" class="activo">Sort</a></li>
+        </ul>
+    </header>
+
+    <h2>Visualizador de Ordenamiento</h2>
+
+    <div class="controls"
+        style="display: flex; gap: 15px; justify-content: center; align-items: center; flex-wrap: wrap;">
+        <label>Algoritmo:
+            <select id="select-algo"
+                style="padding: 5px; border-radius: 8px; border: 1px solid #ddd; outline: none; color:#555; font-weight: bold;">
+                <option value="selection">Selection Sort</option>
+                <option value="insertion">Insertion Sort</option>
+                <option value="shell">Shell Sort</option>
+                <option value="merge">Merge Sort</option>
+            </select>
+        </label>
+
+        <label>Orden:
+            <select id="select-orden"
+                style="padding: 5px; border-radius: 8px; border: 1px solid #ddd; outline: none; color:#555;">
+                <option value="asc">Menor a Mayor</option>
+                <option value="desc">Mayor a Menor</option>
+            </select>
+        </label>
+    </div>
+
+    <div class="controls2"
+        style="display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 20px;">
+        <label style="font-size: 14px;">Aleatorio (N):
+            <input type="number" id="input-size" min="2" max="100" value="15"
+                style="width: 50px; padding: 5px; border-radius: 8px; border: 1px solid #ddd; outline: none;">
+        </label>
+        <button class="modo-btn activo" onclick="generarArregloRandom()">Random</button>
+
+        <span style="color: #ccc;">|</span>
+
+        <label style="font-size: 14px;">Manual:
+            <input type="text" id="input-manual" placeholder="Ej: 5, 12, 8, 45"
+                style="width: 150px; padding: 5px; border-radius: 8px; border: 1px solid #ddd; outline: none;">
+        </label>
+        <button class="modo-btn activo" onclick="cargarManual()" style="background: #e8a16c;">Cargar</button>
+    </div>
+
+    <div id="tiempo-ejecucion"
+        style="text-align: center; font-size: 18px; font-weight: bold; color: #d9825b; margin-bottom: 10px; height: 25px;">
+    </div>
+
+    <div id="sort-container"
+        style="display: flex; flex-wrap: nowrap; overflow-x: auto; align-items: flex-end; justify-content: flex-start; gap: 15px; margin: 0 auto; width: 90%; max-width: 1100px; height: 300px; background: white; padding: 20px 30px; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.08); border-bottom: 8px solid #e0e0e0;">
+        <p style="color: #999; width: 100%; text-align: center; align-self: center;">Ingresa datos o genera aleatorios
+            para comenzar</p>
+    </div>
+
+    <div class="botonesuwu"
+        style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
+        <button onclick="iniciarOrdenamiento()">Ver Gráficamente</button>
+    </div>
+
+    <div class="botonesuwu"
+        style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 15px; margin-bottom: 30px;">
+        <button onclick="limpiarArreglo()">Limpiar</button>
+        <button onclick="exportarJSON()">Exportar JSON</button>
+        <button onclick="document.getElementById('importar-json').click()">Importar JSON</button>
+        <input type="file" id="importar-json" accept=".json" style="display: none;" onchange="importarJSON(event)">
+    </div>
+
+    <div class="botonesuwu">
+        <button onclick="abrirHelp()" style="background: #7ca8b8;">Ayuda</button>
+
+    </div>
+
+    <footer>
+        <p>Hecho por el Grupo "Los Laris"</p>
+        <p>Natalia Aytia, Hans Carvajal, Alessandro Quenallata</p>
+        <p>2026 Análisis de Algoritmos - UCB</p>
+    </footer>
+
+    <div id="help-modal" class="modal">
+        <div class="modal-content" style="text-align: left;">
+            <h2 style="color: #d9825b; margin-top: 0; text-align: center;">Ayuda - Sort</h2>
+            <div style="margin-top: 20px;">
+                <div style="margin-bottom: 15px;">
+                    <h3 style="color: #333; font-size: 16px; margin-bottom: 5px;">Aleatorio (N)</h3>
+                    <p style="color: #666; font-size: 14px; margin: 0;">Genera automáticamente la cantidad de números
+                        (cuadrados) que le pidas para ordenarlos.</p>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <h3 style="color: #333; font-size: 16px; margin-bottom: 5px;">Manual</h3>
+                    <p style="color: #666; font-size: 14px; margin: 0;">Permite ingresar tus propios números. Debes
+                        separarlos con comas (Ej: 10, 25, 3, 14).</p>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <h3 style="color: #333; font-size: 16px; margin-bottom: 5px;">Ver Gráficamente</h3>
+                    <p style="color: #666; font-size: 14px; margin: 0;">Comienza a animar el algoritmo que hayas elegido
+                        en la barra de selección.</p>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <h3 style="color: #333; font-size: 16px; margin-bottom: 5px;">Exportar / Importar</h3>
+                    <p style="color: #666; font-size: 14px; margin: 0;">Guarda el arreglo de números que tienes en
+                        pantalla como archivo JSON o carga uno de tu computadora.</p>
+                </div>
+            </div>
+            <div class="modal-buttons" style="margin-top: 25px;">
+                <button class="modal-btn aceptar" onclick="cerrarHelp()" style="width: 100%;">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-title">Título Modal</h3>
+            <input type="text" id="modal-input" placeholder="Escribe aquí..." autocomplete="off">
+            <div id="modal-error" class="modal-error"></div>
+            <div class="modal-buttons">
+                <button class="modal-btn aceptar" onclick="confirmarModal()">Aceptar</button>
+                <button class="modal-btn cancelar" onclick="cerrarModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="sort.js"></script>
+</body>
+
+</html>

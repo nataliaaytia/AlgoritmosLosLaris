@@ -1,0 +1,731 @@
+/* ==========================================================================
+   1. ESTILOS GLOBALES Y RESET
+   ========================================================================== */
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f7f2ec, #e8ddd2);
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body>label,
+body>br {
+    display: none;
+}
+
+/* ==========================================================================
+   2. ANIMACIÓN UNIFICADA GLOBAL
+   ========================================================================== */
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+/* ==========================================================================
+   3. CABECERA (NAVBAR) UNIFICADA
+   ========================================================================== */
+.navbar {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 60px;
+    background: linear-gradient(90deg, #d9825b, #e8a16c);
+    color: white;
+}
+
+.cabecera-nombre {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    padding: 8px 18px;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover,
+.nav-links .activo {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* ==========================================================================
+   4. SECCIÓN CARÁTULA E INTRO (INTOCABLE)
+   ========================================================================== */
+#intro {
+    max-width: 900px;
+    width: 100%;
+    margin: 40px 20px;
+    padding: 50px;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    animation: aparecer 0.8s ease-in-out forwards;
+}
+
+.titulo h2 {
+    font-size: 36px;
+    color: #d9825b;
+    font-weight: 600;
+    margin-top: 0;
+    animation: none;
+    /* Evitar doble animación con el h2 global */
+}
+
+.linea {
+    width: 120px;
+    height: 4px;
+    background: #e9a97f;
+    margin: 15px auto;
+    border-radius: 5px;
+}
+
+.materia {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.logo {
+    width: 250px;
+    margin: 20px 0;
+}
+
+.contenido h6 {
+    font-size: 16px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    color: #b6b28c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.menu a {
+    width: 220px;
+    text-decoration: none;
+    background-color: #f4c8a1;
+    padding: 25px;
+    border-radius: 18px;
+    font-weight: 600;
+    color: #333;
+    transition: 0.3s ease;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+.menu a span {
+    display: block;
+    font-size: 18px;
+}
+
+.menu a small {
+    display: block;
+    font-weight: 400;
+    font-size: 12px;
+    margin-top: 8px;
+    color: #555;
+}
+
+.menu a:hover {
+    background-color: #f0a86b;
+    transform: translateY(-6px);
+}
+
+/* ==========================================================================
+   5. COMPONENTES: CANVAS, CONTROLES, BOTONES Y MODALES (style.css)
+   ========================================================================== */
+h2 {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 32px;
+    color: #d9825b;
+    animation: aparecer 0.6s ease-out forwards;
+}
+
+#canvas {
+    display: block;
+    margin: 20px auto;
+    border-radius: 25px;
+    background: white;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+    border: none;
+    animation: aparecer 0.6s ease-out forwards;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin: 15px 0;
+    font-weight: 500;
+    animation: aparecer 0.6s ease-out forwards;
+}
+
+.controls label,
+.controls2 label {
+    animation: aparecer 0.6s ease-out forwards;
+}
+
+.controls2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 5px 0;
+    font-weight: 500;
+    animation: aparecer 0.6s ease-out forwards;
+}
+
+.controls2 label {
+    font-size: 8px;
+}
+
+.modo-btn {
+    padding: 10px 22px;
+    font-size: 15px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    background: #e0e0e0;
+    color: #555;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+.modo-btn.activo {
+    background: linear-gradient(135deg, #d9825b, #e8a16c);
+    color: white;
+    box-shadow: 0 8px 20px rgba(217, 130, 91, 0.4);
+}
+
+.modo-btn:hover {
+    transform: translateY(-2px);
+}
+
+button {
+    display: block;
+    margin: 25px auto;
+    padding: 18px 45px;
+    font-size: 16px;
+    border: none;
+    border-radius: 35px;
+    background: linear-gradient(135deg, #d9825b, #e8a16c);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    animation: aparecer 0.6s ease-out forwards;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.botonesuwu {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 5px;
+    animation: aparecer 0.6s ease-out forwards;
+}
+
+/* MODALES */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+.modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: #ffffff;
+    width: 360px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 45px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+    animation: aparecer 0.4s ease forwards;
+}
+
+.modal-content h3 {
+    margin-bottom: 20px;
+    color: #d9825b;
+    font-size: 22px;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    outline: none;
+    font-size: 14px;
+}
+
+.modal-content input:focus {
+    border-color: #d9825b;
+}
+
+.modal-error {
+    color: #d9534f;
+    font-size: 13px;
+    min-height: 18px;
+    margin-bottom: 15px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.modal-btn {
+    all: unset;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    min-width: 110px;
+    transition: 0.3s ease;
+}
+
+.modal-btn.aceptar {
+    background: linear-gradient(135deg, #d9825b, #e8a16c);
+    color: white;
+}
+
+.modal-btn.aceptar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.modal-btn.cancelar {
+    background: #e0e0e0;
+    color: #555;
+}
+
+.modal-btn.cancelar:hover {
+    background: #d5d5d5;
+}
+
+/* ==========================================================================
+   6. COMPONENTES DE TABLAS Y MATRICES
+   ========================================================================== */
+#matriz-container {
+    margin-top: 40px;
+    padding: 25px;
+    background: #f4f6fb;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    animation: aparecer 0.6s ease-out forwards;
+}
+
+#matriz-container table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', sans-serif;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#matriz-container th {
+    background: #f2bc9c;
+    color: white;
+    padding: 10px;
+}
+
+#matriz-container td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #e3e6f0;
+}
+
+.matriz-cell {
+    background-color: #ffffff;
+}
+
+.suma-cell {
+    background-color: #e1e4a0;
+    font-weight: bold;
+}
+
+.count-cell {
+    background-color: #deecda;
+    font-weight: bold;
+}
+
+#importarJSON {
+    display: none;
+}
+
+.tabla-matriz {
+    border-collapse: collapse;
+    width: 80%;
+    margin: 0 auto;
+    font-family: sans-serif;
+    animation: aparecer 0.6s ease-out forwards;
+}
+
+.tabla-matriz th,
+.tabla-matriz td {
+    border: 1px solid #d9825b;
+    padding: 12px;
+    text-align: center;
+}
+
+.tabla-matriz th {
+    background-color: #f6b38a;
+    color: white;
+    font-weight: bold;
+}
+
+.tabla-matriz td {
+    background-color: #ffffff;
+    transition: background-color 0.3s;
+}
+
+.highlight-min {
+    background-color: #abcbd3 !important;
+    font-weight: bold;
+    color: #000;
+}
+
+.highlight-max {
+    background-color: #e99897 !important;
+    font-weight: bold;
+    color: #000;
+}
+
+/* ==========================================================================
+   7. COMPONENTES DE ALGORITMOS Y CARDS (stylealgoritmo.css)
+   ========================================================================== */
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 80px auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.card {
+    background: white;
+    padding: 35px;
+    border-radius: 25px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+    transition: 0.4s ease;
+    opacity: 0;
+    filter: blur(8px);
+    animation: aparecer 0.8s ease forwards;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.1);
+}
+
+.card summary {
+    list-style: none;
+    font-size: 20px;
+    font-weight: 600;
+    color: #d9825b;
+    margin-bottom: 15px;
+    cursor: default;
+}
+
+details summary::marker,
+summary::-webkit-details-marker {
+    display: none;
+}
+
+.contenido-card p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.contenido-card ul {
+    padding-left: 18px;
+    margin-bottom: 15px;
+}
+
+.contenido-card li {
+    margin-bottom: 8px;
+}
+
+.contenido-card img {
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 18px;
+    margin-top: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.video-grid iframe {
+    width: 100%;
+    height: 180px;
+    border-radius: 15px;
+}
+
+/* Cascada de animación para las Cards */
+.card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.card:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.card:nth-child(6) {
+    animation-delay: 0.6s;
+}
+
+.card:nth-child(7) {
+    animation-delay: 0.7s;
+}
+
+.card:nth-child(8) {
+    animation-delay: 0.8s;
+}
+
+/* ==========================================================================
+   CARTAS 3D (CORREGIDO)
+   ========================================================================== */
+.wrapper {
+    perspective: 3000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 80vh;
+    transition: transform 0.8s ease-in-out;
+    /* Le damos la animación de aparecer al contenedor, no a la carta */
+    animation: aparecer 0.8s ease forwards;
+}
+
+.carta {
+    width: 360px;
+    height: 530px;
+    position: relative;
+    transform-style: preserve-3d;
+    /* Aquí dejamos EXCLUSIVAMENTE la transición para que gire libremente */
+    transition: transform 0.8s ease-in-out;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2), -5px -5px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+}
+
+.carta:hover {
+    transform: rotateY(180deg);
+}
+
+.carta-frente,
+.carta-atras {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 20px;
+}
+
+.carta-frente {
+    background-color: #fffbf9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.carta-titulo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #d9825b;
+}
+
+.carta-atras {
+    background-color: #fffbf9;
+    color: rgb(88, 88, 88);
+    transform: rotateY(180deg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.carta-contenido {
+    text-align: center;
+    max-width: 300px;
+}
+
+.carta-contenido p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+/* ==========================================================================
+   8. FOOTER UNIFICADO
+   ========================================================================== */
+footer,
+.footer {
+    text-align: center;
+    margin: 40px 0;
+    color: #666;
+    font-size: 13px;
+    width: 100%;
+}
+
+/* ==========================================================================
+   9. MEDIA QUERIES GLOBALES (Responsive)
+   ========================================================================== */
+@media (max-width: 1000px) {
+    .container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .controls {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    button {
+        width: 90%;
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    .modal-content {
+        width: 90%;
+        height: 90%;
+    }
+
+    #canvas {
+        width: 95%;
+    }
+
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    /* Exclusivo Intro */
+    #intro {
+        padding: 25px;
+        margin: 20px 15px;
+    }
+
+    .titulo h2 {
+        font-size: 26px;
+    }
+
+    .logo {
+        width: 180px;
+    }
+
+    .menu {
+        gap: 15px;
+    }
+
+    .menu a {
+        width: 100%;
+        padding: 18px;
+    }
+}
+
+@media (max-width: 600px) {
+    .modal {
+        width: 95%;
+    }
+}

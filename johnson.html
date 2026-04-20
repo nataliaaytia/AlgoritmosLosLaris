@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="style.css" rel="stylesheet">
+    <link href="styleg.css" rel="stylesheet">
     <title>Grafos</title>
     <link rel="icon" type="image/png" href="fotos/logo-ucb-cuadrado.png">
 </head>
@@ -19,6 +19,7 @@
             <li><a href="johnson.html" class="activo">Johnson</a></li>
             <li><a href="asignacion.html">Asignación</a></li>
             <li><a href="northwest.html">Northwest</a></li>
+            <li><a href="sort.html">Sort</a></li>
         </ul>
     </header>
 
@@ -72,8 +73,7 @@
     <br>
 
     <div class="controls2">
-        <button class="modo-btn" onclick="abrirHelp()">Ayuda</button>
-
+        <button onclick="abrirHelpA()" style="background: #7ca8b8;">Ayuda</button>
     </div>
 
     <div id='matriz-container' style='margin-top: 20px; overflow-x: auto; text-align: center;'></div>
@@ -107,7 +107,6 @@
 
     <div id="help-modal" class="modal">
         <div class="modal-content help-content">
-            <span class="close" onclick="cerrarHelp()">&times;</span>
             <h2>¿Cómo funciona Jhonson?</h2>
             <br>
             <div class="help-section">
@@ -162,6 +161,10 @@
                 <p>Explica paso a paso como se uso el algoritmo de Jhonson para la solucion del grafo</p>
             </div>
             <br>
+
+            <div class="modal-buttons" style="margin-top: 25px;">
+                <button class="modal-btn aceptar" onclick="cerrarHelp()" style="width: 100%;">Entendido</button>
+            </div>
 
         </div>
     </div>
