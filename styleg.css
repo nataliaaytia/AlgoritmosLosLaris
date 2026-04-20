@@ -32,7 +32,6 @@ body>br {
     to {
         opacity: 1;
         transform: translateY(0);
-        filter: blur(0);
     }
 }
 
@@ -510,7 +509,6 @@ summary::-webkit-details-marker {
     border-radius: 15px;
 }
 
-/* Cascada de animación para las Cards */
 .card:nth-child(1) {
     animation-delay: 0.1s;
 }

@@ -43,12 +43,18 @@ animStyle.innerHTML = `
 document.head.appendChild(animStyle);
 
 function animarFlujoCanvas() {
-    offsetLinea += 0.6;
-    tiempoAnimacion += 0.08;
-    dibujar();
+    const necesitaAnimacion = aristas.some(a => a.critica || a.enSolucion) || nodoActivo !== null;
+
+    if (necesitaAnimacion) {
+        offsetLinea += 0.6;
+        tiempoAnimacion += 0.08;
+        dibujar();
+    }
+
     requestAnimationFrame(animarFlujoCanvas);
 }
 
+requestAnimationFrame(animarFlujoCanvas);
 requestAnimationFrame(animarFlujoCanvas);
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -767,6 +773,8 @@ function ordenTopologico() {
     return orden;
 }
 
+
+
 function resolverJohnson() {
     ultimoTipoJohnson = 'max';
     if (nodos.length === 0) return;
@@ -775,7 +783,6 @@ function resolverJohnson() {
         n.temprano = 0;
         n.tardio = Infinity;
     });
-    // Limpiamos las aristas para que no queden rastros de asignación u otros resultados
     aristas.forEach(a => { a.critica = false; a.enSolucion = false; });
 
     let orden = ordenTopologico();
@@ -1064,7 +1071,6 @@ function generarMatrizHTML(tipo) {
 
     buscarCombinaciones(0, Array(nodosDestino.length).fill(false), 0, []);
 
-    // NUEVO: Resaltar aristas en el lienzo
     aristas.forEach(a => a.enSolucion = false);
 
     celdasSeleccionadas.forEach(celda => {
