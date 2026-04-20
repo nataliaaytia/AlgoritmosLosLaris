@@ -144,7 +144,6 @@ function renderizarArreglo(arr) {
 
     maxValGlobal = Math.max(...arr, 1);
 
-    // Siempre al inicio para evitar que se corte la izquierda y permitir scroll
     container.style.justifyContent = 'flex-start';
 
     arr.forEach((valor, index) => {
@@ -173,9 +172,6 @@ function renderizarArreglo(arr) {
     });
 }
 
-// ==========================================
-// 6. FUNCIONES DE AYUDA PARA ANIMAR
-// ==========================================
 function colorSquare(index, color) {
     const cuadrado = document.getElementById(`cuadrado-${index}`);
     if (cuadrado) {
@@ -204,18 +200,13 @@ async function swap(i, j, arr) {
     await overwrite(j, temp, arr);
 }
 
-// ==========================================
-// 7. FUNCIONES DEL CRONÓMETRO VISUAL
-// ==========================================
+
 function actualizarCronometro() {
     let tiempoActual = Date.now() - tiempoInicio;
     let segundos = (tiempoActual / 1000).toFixed(2);
     document.getElementById('tiempo-ejecucion').innerText = `Procesando... ${segundos} s`;
 }
 
-// ==========================================
-// 8. DISPARADOR PRINCIPAL
-// ==========================================
 async function iniciarOrdenamiento() {
     if (estaOrdenando || arregloGlobal.length === 0) return;
     estaOrdenando = true;
@@ -242,9 +233,6 @@ async function iniciarOrdenamiento() {
     estaOrdenando = false;
 }
 
-// ==========================================
-// 9. ALGORITMOS DE ORDENAMIENTO (ANIMADOS)
-// ==========================================
 async function selectionSort(ascendente) {
     let n = arregloGlobal.length;
     for (let i = 0; i < n - 1; i++) {

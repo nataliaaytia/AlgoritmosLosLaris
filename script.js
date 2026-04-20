@@ -10,11 +10,9 @@ let nodoHover = null;
 let nodoActivo = null;
 let ultimoTipoJohnson = 'max';
 
-// NUEVAS VARIABLES PARA ARRASTRAR
 let nodoArrastrado = null;
 let dragHasMoved = false;
 
-// Función para oscurecer colores hexadecimales
 function oscurecerHex(hex, factor) {
     let r = parseInt(hex.slice(1, 3), 16);
     let g = parseInt(hex.slice(3, 5), 16);
@@ -28,11 +26,9 @@ function oscurecerHex(hex, factor) {
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
 
-// --- MOTOR DE ANIMACIONES VISUALES ---
 let offsetLinea = 0;
 let tiempoAnimacion = 0;
 
-// Inyectamos CSS para que las celdas de las matrices aparezcan en cascada
 const animStyle = document.createElement('style');
 animStyle.innerHTML = `
     @keyframes popInCell {
@@ -47,12 +43,12 @@ animStyle.innerHTML = `
 document.head.appendChild(animStyle);
 
 function animarFlujoCanvas() {
-    offsetLinea += 0.6; // Velocidad del flujo de las líneas
-    tiempoAnimacion += 0.08; // Velocidad del latido del nodo
+    offsetLinea += 0.6;
+    tiempoAnimacion += 0.08;
     dibujar();
     requestAnimationFrame(animarFlujoCanvas);
 }
-// Iniciamos el flujo infinito para el Canvas
+
 requestAnimationFrame(animarFlujoCanvas);
 
 const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -78,7 +74,6 @@ function cambiarModo(valor, boton) {
     dibujar();
 }
 
-// EVENTOS PARA ARRASTRAR NODOS
 canvas.addEventListener("mousedown", function (e) {
     if (modo !== "editar") return;
 
@@ -152,7 +147,7 @@ canvas.addEventListener("click", function (e) {
                 color: generarColor(),
                 holgura: null,
                 critica: false,
-                enSolucion: false // NUEVO
+                enSolucion: false
             });
 
             nodoSeleccionado = null;
@@ -177,7 +172,6 @@ canvas.addEventListener("click", function (e) {
 
     if (modo === "editar") {
         if (nodo) {
-            // Evita abrir modal si el nodo fue arrastrado
             if (dragHasMoved) return;
 
             abrirModal("Nuevo nombre del nodo", function (nombre) {
@@ -207,7 +201,6 @@ canvas.addEventListener("mousemove", function (e) {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    // Lógica para arrastrar
     if (nodoArrastrado && modo === "editar") {
         nodoArrastrado.x = x;
         nodoArrastrado.y = y;
@@ -218,7 +211,6 @@ canvas.addEventListener("mousemove", function (e) {
 
     nodoHover = obtenerNodo(x, y);
 
-    // Cambiar cursor según la acción
     if (modo === "editar" && nodoHover) {
         canvas.style.cursor = "grab";
     } else if (modo === "editar" && nodoArrastrado) {
@@ -296,7 +288,6 @@ function dibujar() {
 function dibujarNodo(nodo) {
     ctx.beginPath();
 
-    // MAGIA: Latido (Pulsación) si el nodo está activo en la explicación
     let radioDinamico = radio;
     if (nodo === nodoActivo) {
         radioDinamico = radio + Math.sin(tiempoAnimacion) * 2;
@@ -334,8 +325,7 @@ function dibujarNodo(nodo) {
 
     ctx.fill();
     ctx.stroke();
-    ctx.shadowBlur = 0; // Quitar sombra para que el texto sea nítido
-
+    ctx.shadowBlur = 0;
     ctx.fillStyle = nodo === nodoHover || nodo === nodoActivo ? "white" : "#d9825b";
     ctx.font = "bold 16px Arial";
     ctx.textAlign = "center";
@@ -363,16 +353,15 @@ function dibujarArista(arista) {
 
     ctx.save();
 
-    // Asignación de líneas animadas y colores
     if (arista.critica) {
-        color = "#e63946"; // Rojo (Johnson)
+        color = "#e63946";
         grosor = 4;
         ctx.setLineDash([15, 10]);
         ctx.lineDashOffset = -offsetLinea;
         ctx.shadowBlur = 10;
         ctx.shadowColor = color;
     } else if (arista.enSolucion) {
-        color = "#e63946"; // Rojo para Asignación (solicitado uwu)
+        color = "#e63946";
         grosor = 4;
         ctx.setLineDash([15, 10]);
         ctx.lineDashOffset = -offsetLinea;
@@ -383,7 +372,6 @@ function dibujarArista(arista) {
         ctx.shadowBlur = 0;
     }
 
-    // Dibujar Loop (nodo apuntando a sí mismo)
     if (desde === hasta) {
         const loopRadius = 30;
         const loopX = desde.x;
@@ -395,16 +383,15 @@ function dibujarArista(arista) {
         ctx.arc(loopX, loopY, loopRadius, 0, Math.PI * 2);
         ctx.stroke();
 
-        // Texto del Loop oscuro con contorno
         ctx.shadowBlur = 0;
         ctx.font = "bold 14px Arial";
         ctx.textAlign = "center";
 
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.9)"; // Contorno blanco
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.9)";
         ctx.lineWidth = 3;
         ctx.strokeText(arista.peso, loopX, loopY - loopRadius - 10);
 
-        ctx.fillStyle = oscurecerHex(color, 0.45); // Color un 45% más oscuro
+        ctx.fillStyle = oscurecerHex(color, 0.35);
         ctx.fillText(arista.peso, loopX, loopY - loopRadius - 10);
 
         if (arista.dirigida) {
@@ -414,7 +401,6 @@ function dibujarArista(arista) {
         return;
     }
 
-    // Dibujar línea normal
     let offset = 0;
     const existeInversa = aristas.some(a => a.desde === hasta && a.hasta === desde && a !== arista);
     if (existeInversa) offset = 40;
@@ -445,16 +431,15 @@ function dibujarArista(arista) {
         dibujarFlecha(endX, endY, angle, color);
     }
 
-    // Texto de la arista oscuro con contorno blanco (Súper legible)
     ctx.shadowBlur = 0;
     ctx.font = "bold 16px Arial";
     ctx.textAlign = "center";
 
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.9)"; // Contorno
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.9)";
     ctx.lineWidth = 4;
     ctx.strokeText(arista.peso, controlX, controlY);
 
-    ctx.fillStyle = oscurecerHex(color, 0.45); // Color oscurecido
+    ctx.fillStyle = oscurecerHex(color, 0.45);
     ctx.fillText(arista.peso, controlX, controlY);
 
     if (arista.holgura !== null) {
