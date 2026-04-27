@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="styleg.css" rel="stylesheet">
+    <title>Árboles Binarios - Los Laris</title>
+    <link rel="icon" type="image/png" href="fotos/logo-ucb-cuadrado.png">
+</head>
+
+<body>
+    <header class="navbar">
+        <h1 class="cabecera-nombre">Análisis de Algoritmos</h1>
+        <ul class="nav-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="algoritmos.html">Algoritmos</a></li>
+            <li><a href="grafo.html">Grafos</a></li>
+            <li><a href="johnson.html">Johnson</a></li>
+            <li><a href="asignacion.html">Asignación</a></li>
+            <li><a href="northwest.html">Northwest</a></li>
+            <li><a href="sort.html">Sort</a></li>
+            <li><a href="arboles.html" class="activo">Árboles</a></li>
+            <li><a href="kruskal.html">Kruskal</a></li>
+        </ul>
+    </header>
+
+    <h2>Árboles Binarios de Búsqueda</h2>
+
+    <div class="controls">
+        <label>Valor: <input type="number" id="input-nodo" class="input-nodo" placeholder="Ej: 50"></label>
+        <button class="modo-btn activo" onclick="insertarManual()">Insertar</button>
+        <button class="modo-btn activo" onclick="abrirModalAleatorio()">Insertar Aleatorios</button>
+    </div>
+
+    <br>
+
+    <div class="canvas-wrapper">
+        <canvas id="canvas" class="canvas-pizarra"></canvas>
+    </div>
+
+    <br>
+
+    <div id="resultados-container" class="msg-container">
+        <div id="caja-recorridos" class="caja-recorridos" style="display: none;">
+            <div class="recorrido-item">
+                <p class="recorrido-texto"><b>Preorder:</b> <span id="res-pre" class="recorrido-span"></span></p>
+                <div class="botones-recorrido" style="display: flex; gap: 10px;">
+                    <button class="modo-btn activo btn-chico" onclick="animarRecorrido('pre')">Ver Animación</button>
+                    <button class="modo-btn activo btn-chico" onclick="copiarRecorrido('res-pre')"
+                        style="background: #7ca8b8;">Copiar</button>
+                </div>
+            </div>
+            <div class="recorrido-item">
+                <p class="recorrido-texto"><b>Inorder:</b> <span id="res-in" class="recorrido-span"></span></p>
+                <div class="botones-recorrido" style="display: flex; gap: 10px;">
+                    <button class="modo-btn activo btn-chico" onclick="animarRecorrido('in')">Ver Animación</button>
+                    <button class="modo-btn activo btn-chico" onclick="copiarRecorrido('res-in')"
+                        style="background: #7ca8b8;">Copiar</button>
+                </div>
+            </div>
+            <div class="recorrido-item">
+                <p class="recorrido-texto"><b>Postorder:</b> <span id="res-post" class="recorrido-span"></span></p>
+                <div class="botones-recorrido" style="display: flex; gap: 10px;">
+                    <button class="modo-btn activo btn-chico" onclick="animarRecorrido('post')">Ver Animación</button>
+                    <button class="modo-btn activo btn-chico" onclick="copiarRecorrido('res-post')"
+                        style="background: #7ca8b8;">Copiar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="botonesuwu">
+        <button class="btn-peligro" onclick="limpiarArbol()">Limpiar lienzo</button>
+        <button onclick="generarTodosRecorridos()">Generar Recorridos</button>
+        <button onclick="abrirModalReconstruir()">Reconstruir Árbol</button>
+        <button onclick="exportarPNG()">Exportar PNG</button>
+        <button onclick="exportarJSON()">Exportar JSON</button>
+        <button onclick="document.getElementById('importarJSON').click()">Importar JSON</button>
+        <input type="file" id="importarJSON" accept=".json" onchange="importarJSON(event)" style="display: none;">
+    </div>
+
+    <br>
+
+    <div class="controls2">
+        <button onclick="abrirHelp()" style="background: #7ca8b8;">Ayuda</button>
+    </div>
+
+    <footer>
+        <p>Hecho por el Grupo "Los Laris"</p>
+        <p>Natalia Aytia, Hans Carvajal, Alessandro Quenallata</p>
+        <p>2026 Análisis de Algoritmos - UCB</p>
+    </footer>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-title">Título</h3>
+            <input type="text" id="modal-input" placeholder="Escribe aquí...">
+            <p id="modal-error" class="modal-error" style="color: #d9534f; font-size: 13px; margin-top: 5px;"></p>
+            <div class="modal-buttons">
+                <button class="modal-btn aceptar" onclick="confirmarModal()">Aceptar</button>
+                <button class="modal-btn cancelar" onclick="cerrarModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-aleatorio" class="modal">
+        <div class="modal-content">
+            <h3 style="color: #d9825b;">Generar Nodos Aleatorios</h3>
+            <br>
+            <div style="text-align: left;">
+                <label>Cantidad:</label>
+                <input type="number" id="input-cantidad" value="5" min="1" max="50">
+                <br>
+                <label>Mínimo:</label>
+                <input type="number" id="input-min" value="1">
+                <br>
+                <label>Máximo:</label>
+                <input type="number" id="input-max" value="100">
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn aceptar" onclick="generarAleatoriosMultiples()">Generar</button>
+                <button class="modal-btn cancelar" onclick="cerrarModalAleatorio()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-reconstruir" class="modal">
+        <div class="modal-content">
+            <h3 style="color: #d9825b;">Reconstruir Árbol</h3>
+            <br>
+            <div style="text-align: left; margin-bottom: 15px;">
+                <label>Inorder:</label>
+                <input type="text" id="input-recon-in" placeholder="Ej: 10, 20, 30">
+
+                <div style="display: flex; gap: 20px; margin: 15px 0;">
+                    <label style="cursor: pointer;"><input type="radio" name="modo-recon" value="pre"
+                            onchange="cambiarPalancaRecon()" checked> Preorder</label>
+                    <label style="cursor: pointer;"><input type="radio" name="modo-recon" value="post"
+                            onchange="cambiarPalancaRecon()"> Postorder</label>
+                </div>
+
+                <div id="caja-recon-pre">
+                    <label>Preorder:</label>
+                    <input type="text" id="input-recon-pre" placeholder="Ej: 20, 10, 30">
+                </div>
+                <div id="caja-recon-post" style="display: none;">
+                    <label>Postorder:</label>
+                    <input type="text" id="input-recon-post" placeholder="Ej: 10, 30, 20">
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn aceptar" onclick="ejecutarReconstruccion()">Construir</button>
+                <button class="modal-btn cancelar" onclick="cerrarModalReconstruir()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="help-modal" class="modal">
+        <div class="modal-content help-content">
+            <h2>¿Cómo usar Árboles Binarios?</h2>
+            <br>
+            <div style="text-align: left;">
+                <h3>Insertar</h3>
+                <p>Escribe un número y presiona "Insertar" para agregarlo al árbol de búsqueda.</p>
+                <br>
+                <h3>Recorridos</h3>
+                <p>Genera los órdenes Preorder, Inorder y Postorder. Puedes animarlos para ver el camino o copiarlos en
+                    formato de lista para reconstruir.</p>
+                <br>
+                <h3>Reconstruir</h3>
+                <p>Crea un árbol exacto pegando el Inorder y un segundo recorrido (Pre o Post).</p>
+                <br>
+                <h3>Archivos</h3>
+                <p>Exporta tu árbol en JSON para cargarlo después o en PNG para guardarlo como imagen.</p>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn aceptar" onclick="cerrarHelp()" style="width: 100%;">Entendido</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="arboles.js"></script>
+</body>
+
+</html>
